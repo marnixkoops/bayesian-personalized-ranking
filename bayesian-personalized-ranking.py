@@ -42,7 +42,6 @@ product_map_df = pd.read_csv(
 )
 product_map_df["product_id"] = product_map_df["product_id"].astype(str)
 
-product_map_df.head()
 
 train_partition_final_row = int(0.8 * len(df))
 df_test = df[train_partition_final_row:]
