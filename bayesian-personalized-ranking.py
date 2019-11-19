@@ -283,7 +283,7 @@ print(
 # -----------------------
 
 
-def find_similar_product_ids(product_id=None, num_items=10):
+def find_similar_product_ids(product_id=None, num_items=15):
     """Find product_ids similar to an product_id.
     Args:
         product_id (str): The name of the product_id we want to find similar product_ids for
@@ -336,11 +336,11 @@ def find_similar_product_ids(product_id=None, num_items=10):
 
 
 # ---------------------
-# MAKE RECOMMENDATION
+# MAKE RECOMMENDATIONS
 # ---------------------
 
 
-def make_recommendation(coolblue_cookie_token=None, num_items=10):
+def make_recommendation(coolblue_cookie_token=None, num_items=5):
     """Recommend items for a given coolblue_cookie_id given a trained model
     Args:
         coolblue_cookie_token (int): The id of the coolblue_cookie_id we want to create recommendations for.
@@ -406,7 +406,6 @@ print(find_similar_product_ids(product_id="838335"))  # iPhone 11
 
 print(find_similar_product_ids(product_id="793672"))  # iPhone 8 Plus
 
-
 print(find_similar_product_ids(product_id="817318"))  # Sony noise-cancelling
 
 print(find_similar_product_ids(product_id="834996"))  # Macbook Pro 13" touch bar 2019
@@ -421,9 +420,9 @@ print(find_similar_product_ids(product_id="812182"))  # kobo e-reader
 
 print(find_similar_product_ids(product_id="828471"))  # dyson vacuum
 
-print(find_similar_product_ids(product_id="775222"))  # lawnmower
-
 
 print(make_recommendation(coolblue_cookie_token=3))
 
-print(make_recommendation(coolblue_cookie_token=128))
+print(make_recommendation(coolblue_cookie_token=4 ** 1))
+
+print(make_recommendation(coolblue_cookie_token=4 ** 5))
