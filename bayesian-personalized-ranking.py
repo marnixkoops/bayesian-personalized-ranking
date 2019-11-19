@@ -300,17 +300,17 @@ def find_similar_product_ids(product_id=None, num_items=10):
     item_vecs = get_variable(graph, session, "item_factors")
 
     # Grab our item bias
-    item_bi = get_variable(graph, session, "item_bias").reshape(-1)
+    item_bias = get_variable(graph, session, "item_bias").reshape(-1)
 
-    # Get the item id for Lady GaGa
+    # Get the item id for a product
     item_id = int(item_lookup[item_lookup.product_id == product_id]["product_token"])
 
     # Get the item vector for our item_id and transpose it.
     item_vec = item_vecs[item_id].T
 
-    # Calculate the similarity between Lady GaGa and all other product_ids
+    # Calculate the similarity between this product and all other product_ids
     # by multiplying the item vector with our item_matrix
-    scores = np.add(item_vecs.dot(item_vec), item_bi).reshape(1, -1)[0]
+    scores = np.add(item_vecs.dot(item_vec), item_bias).reshape(1, -1)[0]
 
     # Get the indices for the top 10 scores
     top_10 = np.argsort(scores)[::-1][:num_items]
@@ -357,10 +357,12 @@ def make_recommendation(coolblue_cookie_token=None, num_items=10):
     item_vecs = get_variable(graph, session, "item_factors")
 
     # Grab our item bias
-    item_bi = get_variable(graph, session, "item_bias").reshape(-1)
+    item_bias = get_variable(graph, session, "item_bias").reshape(-1)
 
     # Calculate the score for our coolblue_cookie_id for all items.
-    rec_vector = np.add(coolblue_cookie_id_vecs[coolblue_cookie_token, :].dot(item_vecs.T), item_bi)
+    rec_vector = np.add(
+        coolblue_cookie_id_vecs[coolblue_cookie_token, :].dot(item_vecs.T), item_bias
+    )
 
     # Grab the indices of the top coolblue_cookie_ids
     item_idx = np.argsort(rec_vector)[::-1][:num_items]
@@ -385,7 +387,28 @@ def make_recommendation(coolblue_cookie_token=None, num_items=10):
     return recommendations
 
 
-print(find_similar_product_ids(product_id="795117"))
+print(find_similar_product_ids(product_id="828805"))  # Airpods 2
+
+print(find_similar_product_ids(product_id="838335"))  # iPhone 11
+
+print(find_similar_product_ids(product_id="793672"))  # iPhone 8 Plus
 
 
-print(make_recommendation(coolblue_cookie_token=56))
+print(find_similar_product_ids(product_id="817318"))  # Sony noise-cancelling
+
+print(find_similar_product_ids(product_id="834996"))  # Macbook Pro 13" touch bar 2019
+
+print(find_similar_product_ids(product_id="835003"))  # Macbook Air 13" 2019
+
+print(find_similar_product_ids(product_id="795117"))  # doorbell
+
+print(find_similar_product_ids(product_id="671720"))  # smart thermo
+
+print(find_similar_product_ids(product_id="812182"))  # kobo e-reader
+
+print(find_similar_product_ids(product_id="828471"))  # dyson vacuum
+
+print(find_similar_product_ids(product_id="775222"))  # lawnmower
+
+
+print(make_recommendation(coolblue_cookie_token=999))
