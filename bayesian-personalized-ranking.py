@@ -90,7 +90,6 @@ data_sparse = sp.csr_matrix(
     (clicks, (rows, cols)), shape=(len(coolblue_cookie_ids), len(product_ids))
 )
 
-
 # Get the values of our matrix as a list of coolblue_cookie_id ids
 # and item ids. Note that our litsts have the same length
 # as each coolblue_cookie_id id repeats one time for each played product_id.
@@ -350,6 +349,20 @@ def make_recommendation(coolblue_cookie_token=None, num_items=10):
         recommendations (pandas.DataFrame): DataFrame with num_items product_id names and scores
     """
 
+    # make df of the session for this token
+    clicks = df[df["coolblue_cookie_token"] == coolblue_cookie_token].merge(
+        item_lookup, on="product_token", how="left"
+    )
+    clicks["product_name"] = clicks["product_id"].map(
+        dict(zip(product_map_df["product_id"], product_map_df["product_name"]))
+    )
+    clicks["product_type_name"] = clicks["product_id"].map(
+        dict(zip(product_map_df["product_id"], product_map_df["product_type_name"]))
+    )
+
+    print("Making implicit feedback recommendations for observed user clicks: \n{}".format(clicks))
+    print("\n----------------------⟶\n")
+
     # Grab our coolblue_cookie_id matrix U
     coolblue_cookie_id_vecs = get_variable(graph, session, "coolblue_cookie_id_factors")
 
@@ -411,4 +424,6 @@ print(find_similar_product_ids(product_id="828471"))  # dyson vacuum
 print(find_similar_product_ids(product_id="775222"))  # lawnmower
 
 
-print(make_recommendation(coolblue_cookie_token=999))
+print(make_recommendation(coolblue_cookie_token=3))
+
+print(make_recommendation(coolblue_cookie_token=128))
